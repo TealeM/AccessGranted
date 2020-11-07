@@ -22,6 +22,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
 
   getUserInfo() async {
     Constants.myName = await HelperFunctions.getUserNameSharedPreference();
+    print("your username is " + Constants.myName.toString());
     setState(() {
     });
   }

@@ -16,20 +16,43 @@ class _ConversationScreenState extends State<ConversationScreen> {
   DatabaseMethods databaseMethods = new DatabaseMethods();
   TextEditingController messageController = new TextEditingController();
 
-  Widget ChatMessageList() {
-    
+  Stream chatMessageStream;
+
+  Widget chatMessageList() {
+    return StreamBuilder(
+      stream: chatMessageStream,
+      builder: (context, snapshot){
+        return snapshot.hasData ? ListView.builder(
+          itemCount: snapshot.data.documents.length,
+            itemBuilder: (context, index){
+            return MessageTile(snapshot.data.docs[index].data()["message"]);
+            }) : Container();
+      },
+    );
   }
 
   sendMessage() {
     if (messageController.text.isNotEmpty) {
-      Map<String, String> messageMap = {
+      Map<String, dynamic> messageMap = {
       "message" : messageController.text,
-      "sendBy" : Constants.myName
+      "sendBy" : Constants.myName,
+      "time" : DateTime.now().millisecondsSinceEpoch
     };
-    databaseMethods.getConversationMessages(widget.chatRoomId, messageMap);
+    databaseMethods.addConversationMessages(widget.chatRoomId, messageMap);
+    messageController.text = "";
     }
   }
-  
+
+  @override
+  void initState() {
+    databaseMethods.getConversationMessages(widget.chatRoomId).then((value){
+      setState(() {
+        chatMessageStream = value;
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,6 +60,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
       body: Container(
         child: Stack(
           children: [
+            chatMessageList(),
             Container(
               alignment: Alignment.bottomCenter,
               child: Container(
@@ -60,6 +84,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                     ),
                     GestureDetector(
                       onTap: (){
+                        sendMessage();
                         //initiateSearch();
                         //databaseMethods.getUserByUsername(searchTextEditingController.text).then((val){
                           //print(val.toString());
@@ -87,6 +112,20 @@ class _ConversationScreenState extends State<ConversationScreen> {
           ],
         )
       ),
+    );
+  }
+}
+
+
+
+class MessageTile extends StatelessWidget {
+  final String message;
+  MessageTile(this.message);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Text(message, style: mediumTextStyle(),),
     );
   }
 }
