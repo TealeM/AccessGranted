@@ -16,12 +16,14 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    getUserInfo();
     super.initState();
   }
 
   getUserInfo() async {
     Constants.myName = await HelperFunctions.getUserNameSharedPreference();
+    setState(() {
+    });
   }
 
   @override

@@ -4,7 +4,7 @@ import 'package:access_granted/services/database.dart';
 import 'package:access_granted/widgets/widget.dart';
 import 'package:flutter/material.dart';
 
-import 'chatRooms.dart';
+import 'chatRoomsScreen.dart';
 
 class SignUp extends StatefulWidget {
   final Function toggle;

@@ -1,7 +1,7 @@
 import 'package:access_granted/helper/helperfunctions.dart';
 import 'package:access_granted/services/auth.dart';
 import 'package:access_granted/services/database.dart';
-import 'package:access_granted/views/chatRooms.dart';
+import 'package:access_granted/views/chatRoomsScreen.dart';
 import 'package:access_granted/widgets/widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -30,24 +30,22 @@ class _SignInState extends State<SignIn> {
 
   signIn(){
     if(formKey.currentState.validate()){
-
       HelperFunctions.saveUserEmailSharedPreference(emailTextEditingController.text);
       //HelperFunctions.saveUserNameSharedPreference(userNameTextEditingController.text);
+
+      databaseMethods.getUserByUserEmail(emailTextEditingController.text)
+      .then((val){
+        snapshotUserInfo = val;
+        HelperFunctions.saveUserNameSharedPreference(snapshotUserInfo.docs[0].data()["name"]);
+        print("${snapshotUserInfo.docs[0].data()["name"]} THIS IS WHAT YOURE LOOKING FOR");
+      });
 
       setState(() {
         isLoading = true;
       });
 
-      databaseMethods.getUserByUserEmail(emailTextEditingController.text)
-      .then((val){
-        snapshotUserInfo = val;
-        HelperFunctions.saveUserEmailSharedPreference(snapshotUserInfo.docs[0].data()["name"]);
-      });
-
       authMethods.signInWithEmailAndPassword(emailTextEditingController.text, passwordTextEditingController.text).then((val){
         if(val != null) {
-
-
           HelperFunctions.saveUserLoggedInSharedPreference(true);
           Navigator.pushReplacement(context, MaterialPageRoute(
               builder: (context) => ChatRoomScreen()
