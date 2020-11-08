@@ -1,6 +1,7 @@
 import 'package:access_granted/helper/authenticate.dart';
 import 'package:access_granted/helper/helperfunctions.dart';
 import 'package:access_granted/views/chatRoomsScreen.dart';
+import 'package:access_granted/views/homeScreen.dart';
 import 'package:access_granted/views/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -45,7 +46,8 @@ class _MyAppState extends State<MyApp> {
         scaffoldBackgroundColor: Color(0xff1F1F1F),
         primarySwatch: Colors.blue,
       ),
-      home: userIsLoggedIn ? ChatRoomScreen() : Authenticate(),
+      home: userIsLoggedIn ? HomeScreen() : Authenticate(),
+      //home: userIsLoggedIn ? ChatRoomScreen() : Authenticate(),
     );
   }
 }
