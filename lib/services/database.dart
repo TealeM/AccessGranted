@@ -8,10 +8,15 @@ class DatabaseMethods{
   }
 
   getUserByUserEmail(String userEmail) async {
+    print("your email is $userEmail");
     return await FirebaseFirestore.instance.collection("users")
-        .where("email", isEqualTo: userEmail).get();
+        .where("email", isEqualTo: userEmail).get()
+        .catchError((e) {
+          print("THERE");
+          print(e.toString());
+    });
   }
-
+      //.docs[0].data()["name"]
   uploadUserInfo(userMap) {
     FirebaseFirestore.instance.collection("users")
         .add(userMap).catchError((e) {
@@ -40,4 +45,7 @@ class DatabaseMethods{
         .snapshots();
   }
 
+  getChatRooms(String userName) async {
+    return await FirebaseFirestore.instance.collection("ChatRoom").where("users", arrayContains: userName).snapshots();
+  }
 }

@@ -28,32 +28,35 @@ class _SignInState extends State<SignIn> {
   bool isLoading = false;
   QuerySnapshot snapshotUserInfo;
 
-  signIn(){
+  signIn() async {
     if(formKey.currentState.validate()) {
       setState(() {
         isLoading = true;
       });
     }
 
-      HelperFunctions.saveUserEmailSharedPreference(emailTextEditingController.text);
-      //HelperFunctions.saveUserNameSharedPreference(userNameTextEditingController.text);
+    await authMethods.signInWithEmailAndPassword(emailTextEditingController.text, passwordTextEditingController.text)
+        .then((val) async {
+      if(val != null) {
 
-      databaseMethods.getUserByUserEmail(emailTextEditingController.text)
-      .then((val){
-        snapshotUserInfo = val;
-        print("${snapshotUserInfo.docs[0].data()["name"]} THIS IS WHAT YOURE LOOKING FOR");
+        snapshotUserInfo = await databaseMethods.getUserByUserEmail(emailTextEditingController.text);
+        //print("${snapshotUserInfo.docs[0].data()}");
 
-        HelperFunctions.saveUserNameSharedPreference(snapshotUserInfo.docs[0].data()["name"]); //this is problematic<=====
-      });
+        HelperFunctions.saveUserLoggedInSharedPreference(true);
+        HelperFunctions.saveUserNameSharedPreference(snapshotUserInfo.docs[0].data()["name"]); //this doesn't get executed<=====
+        HelperFunctions.saveUserEmailSharedPreference(emailTextEditingController.text);
 
-      authMethods.signInWithEmailAndPassword(emailTextEditingController.text, passwordTextEditingController.text).then((val){
-        if(val != null) {
-          HelperFunctions.saveUserLoggedInSharedPreference(true);
-          Navigator.pushReplacement(context, MaterialPageRoute(
-              builder: (context) => ChatRoomScreen()
-          ));
-        }
-      });
+        Navigator.pushReplacement(context, MaterialPageRoute(
+            builder: (context) => ChatRoomScreen()));
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+      }
+
+        });
+
+
   }
 
   @override
