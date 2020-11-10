@@ -5,7 +5,9 @@ import 'package:access_granted/views/homeScreen.dart';
 import 'package:access_granted/views/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-
+import 'package:access_granted/views/userProfile.dart';
+import 'package:access_granted/views/developerProfile.dart';
+import 'package:access_granted/helper/constants.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -42,12 +44,12 @@ class _MyAppState extends State<MyApp> {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Color(0xff145C9E),
-        scaffoldBackgroundColor: Color(0xff1F1F1F),
+        primaryColor: Color(Constants.colors['green']),
+        scaffoldBackgroundColor: Color(Constants.colors['black']),
         primarySwatch: Colors.blue,
       ),
-      //home: userIsLoggedIn ? HomeScreen() : Authenticate(),
-      home: userIsLoggedIn ? ChatRoomScreen() : Authenticate(),
+      home: UserProfile()
+      //home: userIsLoggedIn ? ChatRoomScreen() : Authenticate(),
     );
   }
 }
