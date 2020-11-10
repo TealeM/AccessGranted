@@ -1,6 +1,7 @@
 import 'package:access_granted/helper/helperfunctions.dart';
 import 'package:access_granted/services/auth.dart';
 import 'package:access_granted/services/database.dart';
+import 'package:access_granted/views/homeScreen.dart';
 import 'package:access_granted/widgets/widget.dart';
 import 'package:flutter/material.dart';
 
@@ -49,7 +50,7 @@ class _SignUpState extends State<SignUp> {
         databaseMethods.uploadUserInfo(userInfoMap);
         HelperFunctions.saveUserLoggedInSharedPreference(true);
         Navigator.pushReplacement(context, MaterialPageRoute(
-              builder: (context) => ChatRoomScreen()
+              builder: (context) => HomeScreen()
             ));
           });
     }

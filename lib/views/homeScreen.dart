@@ -1,9 +1,11 @@
 import 'package:access_granted/helper/authenticate.dart';
 import 'package:access_granted/helper/constants.dart';
+import 'package:access_granted/helper/drawer.dart';
 import 'package:access_granted/helper/helperfunctions.dart';
 import 'package:access_granted/services/auth.dart';
 import 'package:access_granted/views/search.dart';
 import 'package:access_granted/views/chatRoomsScreen.dart';
+import 'package:access_granted/views/userProfile.dart';
 import 'package:access_granted/widgets/widget.dart';
 import 'package:flutter/material.dart';
 
@@ -48,48 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      drawer: Container(
-        width : 200,
-        height : 800,
-        padding: EdgeInsets.only(top: 40),
-        child: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            ListTile(
-              title: Text('My Profile'),
-              onTap: () {
-
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Text('Postings'),
-              onTap: () {
-
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Text('Messages'),
-              onTap: () {
-                Navigator.pushReplacement(context, MaterialPageRoute(
-                    builder: (context) => ChatRoomScreen()
-                ));
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Text('About Us'),
-              onTap: () {
-
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        )
-      ),
-      ),
+      drawer: MyDrawer ()
     );
   }
 }
