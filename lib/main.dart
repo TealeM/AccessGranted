@@ -48,8 +48,10 @@ class _MyAppState extends State<MyApp> {
         scaffoldBackgroundColor: Color(Constants.colors['black']),
         primarySwatch: Colors.blue,
       ),
-      //home: userIsLoggedIn ? HomeScreen() : Authenticate(),
-      home: userIsLoggedIn ? ChatRoomScreen() : Authenticate(),
+      //home: UserProfile()
+      home: Authenticate(),
+      //home: userIsLoggedIn ? ChatRoomScreen() : Authenticate(),
+
     );
   }
 }

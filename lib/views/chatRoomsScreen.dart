@@ -1,5 +1,6 @@
 import 'package:access_granted/helper/authenticate.dart';
 import 'package:access_granted/helper/constants.dart';
+import 'package:access_granted/helper/drawer.dart';
 import 'package:access_granted/helper/helperfunctions.dart';
 import 'package:access_granted/services/auth.dart';
 import 'package:access_granted/services/database.dart';
@@ -89,6 +90,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
           ));
         },
       ),
+      drawer: MyDrawer ()
     );
   }
 }

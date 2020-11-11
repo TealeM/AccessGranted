@@ -2,6 +2,7 @@ import 'package:access_granted/helper/helperfunctions.dart';
 import 'package:access_granted/services/auth.dart';
 import 'package:access_granted/services/database.dart';
 import 'package:access_granted/views/chatRoomsScreen.dart';
+import 'package:access_granted/views/homeScreen.dart';
 import 'package:access_granted/widgets/widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -47,7 +48,7 @@ class _SignInState extends State<SignIn> {
         HelperFunctions.saveUserEmailSharedPreference(emailTextEditingController.text);
 
         Navigator.pushReplacement(context, MaterialPageRoute(
-            builder: (context) => ChatRoomScreen()));
+            builder: (context) => HomeScreen()));
       } else {
         setState(() {
           isLoading = false;

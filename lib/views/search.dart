@@ -1,4 +1,5 @@
 import 'package:access_granted/helper/constants.dart';
+import 'package:access_granted/helper/drawer.dart';
 import 'package:access_granted/helper/helperfunctions.dart';
 import 'package:access_granted/services/database.dart';
 import 'package:access_granted/views/conversationScreen.dart';
@@ -158,6 +159,7 @@ class _SearchScreenState extends State<SearchScreen> {
           ],
         ),
       ),
+      drawer: MyDrawer ()
     );
   }
 }
