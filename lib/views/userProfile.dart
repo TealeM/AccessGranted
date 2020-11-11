@@ -1,7 +1,7 @@
 import 'package:access_granted/helper/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:access_granted/widgets/labeledInfo.dart';
-import 'package:access_granted/widgets/iconCard.dart';
+import 'package:access_granted/widgets/iconNumberCard.dart';
 
 class UserProfile extends StatefulWidget{
 
