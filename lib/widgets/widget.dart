@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:access_granted/helper/constants.dart';
 
 Widget appBarMain(BuildContext context) {
   return AppBar(title: Image.asset("assets/images/logo.png",
@@ -15,24 +16,24 @@ InputDecoration textFieldInputDecoration(String hintText){
           color: Colors.white54
       ),
       focusedBorder: UnderlineInputBorder(
-        borderSide: BorderSide(color: Colors.white),
+        borderSide: BorderSide(color: Color(Constants.colors['white'])),
       ),
       enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.white)
+          borderSide: BorderSide(color: Color(Constants.colors['white']))
       )
   );
 }
 
 TextStyle simpleTextStyle(){
   return TextStyle(
-    color: Colors.white,
+    color: Color(Constants.colors['white']),
     fontSize: 16
   );
 }
 
 TextStyle mediumTextStyle(){
   return TextStyle(
-  color: Colors.white,
+  color: Color(Constants.colors['white']),
   fontSize: 17
   );
 }

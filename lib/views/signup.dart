@@ -1,3 +1,4 @@
+import 'package:access_granted/helper/constants.dart';
 import 'package:access_granted/helper/helperfunctions.dart';
 import 'package:access_granted/services/auth.dart';
 import 'package:access_granted/services/database.dart';
@@ -26,18 +27,20 @@ class _SignUpState extends State<SignUp> {
   TextEditingController userNameTextEditingController = new TextEditingController();
   TextEditingController emailTextEditingController = new TextEditingController();
   TextEditingController passwordTextEditingController = new TextEditingController();
+  String selectedUserType;
 
   signMeUp(){
     if(formKey.currentState.validate()){
 
       Map<String, String> userInfoMap = {
         "name" : userNameTextEditingController.text,
-        "email" :emailTextEditingController.text
+        "email" : emailTextEditingController.text,
+        "userType": selectedUserType
       };
 
       HelperFunctions.saveUserEmailSharedPreference(emailTextEditingController.text);
       HelperFunctions.saveUserNameSharedPreference(userNameTextEditingController.text);
-
+      HelperFunctions.saveUserTypeSharedPreference(selectedUserType);
 
       setState(() {
         isLoading = true;
@@ -102,6 +105,23 @@ class _SignUpState extends State<SignUp> {
                           controller: passwordTextEditingController,
                           style: simpleTextStyle(),
                           decoration: textFieldInputDecoration("password"),
+                        ),
+                        DropdownButtonFormField(
+                          validator: (val){
+                            return val == null ?  "Please choose an option" : null;
+                          },
+                          items: [Constants.NORMAL_USER, Constants.DEV_USER].map((userType) => DropdownMenuItem(
+                            child: Text(userType.toString()),
+                            value: userType,
+                          )).toList(),
+                          style: simpleTextStyle(),
+                          decoration: textFieldInputDecoration("register as"),
+                          dropdownColor: Color(Constants.colors['lessBlack']),
+                          onChanged: (val) {
+                            setState(() {
+                              selectedUserType = val;
+                            });
+                          },
                         ),
                       ],
                     ),

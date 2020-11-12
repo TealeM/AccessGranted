@@ -2,6 +2,9 @@ class Constants{
 
   static String myName = "";
 
+  static const String NORMAL_USER = "tester";
+  static const String DEV_USER = "developer";
+
   //contains all colors for the app.
   static final Map colors = {
     'black' : 0xFF011627,
