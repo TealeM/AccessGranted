@@ -3,6 +3,7 @@ import 'package:access_granted/helper/constants.dart';
 import 'package:access_granted/helper/helperfunctions.dart';
 import 'package:access_granted/services/auth.dart';
 import 'package:access_granted/views/aboutUs.dart';
+import 'package:access_granted/views/developerProfile.dart';
 import 'package:access_granted/views/search.dart';
 import 'package:access_granted/views/chatRoomsScreen.dart';
 import 'package:access_granted/views/userProfile.dart';
@@ -12,7 +13,24 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class MyDrawer extends StatelessWidget {
+class MyDrawer extends StatefulWidget {
+  @override
+  _MyDrawerState createState() => _MyDrawerState();
+}
+
+class _MyDrawerState extends State<MyDrawer> {
+  String userType =  Constants.NORMAL_USER;
+
+  @override
+  void initState() {
+    HelperFunctions.getUserTypeSharedPreference().then((_userType) {
+    if(_userType != null){
+        userType = _userType;
+        }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,7 +55,12 @@ class MyDrawer extends StatelessWidget {
                   onTap: () {
                     Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => UserProfile())
+                        MaterialPageRoute(builder: (context) {
+                          if(userType == Constants.NORMAL_USER){
+                            return UserProfile();
+                          }
+                          return DeveloperProfile();
+                        })
                     );
                   },
                 ),
@@ -78,4 +101,4 @@ class MyDrawer extends StatelessWidget {
       //),
     //);
   }
-  }
+}
