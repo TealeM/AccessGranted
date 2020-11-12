@@ -34,7 +34,7 @@ class _SearchScreenState extends State<SearchScreen> {
   QuerySnapshot searchSnapshot;
 
   initiateSearch(){
-    databaseMethods.getUserByUsername(searchTextEditingController.text)
+    databaseMethods.doSearch(searchTextEditingController.text)
         .then((val){
           setState(() {
             searchSnapshot = val;
@@ -133,7 +133,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   GestureDetector(
                     onTap: (){
                       initiateSearch();
-                      databaseMethods.getUserByUsername(searchTextEditingController.text).then((val){
+                      databaseMethods.doSearch(searchTextEditingController.text).then((val){
                         print(val.toString());
                       });
                     },

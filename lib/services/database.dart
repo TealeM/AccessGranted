@@ -1,10 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:access_granted/helper/constants.dart';
+import 'package:access_granted/helper/helperfunctions.dart';
 
 class DatabaseMethods{
 
   getUserByUsername(String username) async {
     return await FirebaseFirestore.instance.collection("users")
         .where("name", isEqualTo: username).get();
+  }
+
+  doSearch(String username) async{
+    String userType = Constants.NORMAL_USER;
+    Map opponents = {
+      Constants.NORMAL_USER : Constants.DEV_USER,
+      Constants.DEV_USER : Constants.NORMAL_USER
+    };
+    await HelperFunctions.getUserTypeSharedPreference().then((_userType) {
+      if(_userType != null){
+        userType = opponents[_userType];
+      }
+    });
+    return await FirebaseFirestore.instance.collection("users")
+        .where("name", isEqualTo: username).where("userType", isEqualTo: userType).get();
   }
 
   getUserByUserEmail(String userEmail) async {
