@@ -5,9 +5,8 @@ import 'package:access_granted/views/homeScreen.dart';
 import 'package:access_granted/views/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:access_granted/views/userProfile.dart';
-import 'package:access_granted/views/developerProfile.dart';
 import 'package:access_granted/helper/constants.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
