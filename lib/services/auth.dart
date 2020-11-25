@@ -10,6 +10,10 @@ class AuthMethods {
     return AppUser !=null ? AppUser(userId: user.uid) : null;
   }
 
+  getUID() async{
+    return await _auth.currentUser.uid;
+  }
+
   Future signInWithEmailAndPassword(String email, String password) async {
     try{
       UserCredential result = await _auth.signInWithEmailAndPassword(
