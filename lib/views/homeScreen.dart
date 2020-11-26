@@ -1,13 +1,8 @@
-import 'package:access_granted/helper/authenticate.dart';
 import 'package:access_granted/helper/constants.dart';
 import 'package:access_granted/helper/drawer.dart';
-import 'package:access_granted/helper/helperfunctions.dart';
-import 'package:access_granted/services/auth.dart';
-import 'package:access_granted/views/search.dart';
-import 'package:access_granted/views/chatRoomsScreen.dart';
-import 'package:access_granted/views/userProfile.dart';
 import 'package:access_granted/widgets/widget.dart';
 import 'package:flutter/material.dart';
+import 'package:access_granted/widgets/newsTile.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -16,64 +11,66 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+
+  List <Map> newsCollection = [
+    {
+      'photoUrl': 'assets/images/news1.jpg',
+      'title': 'God Of War',
+      'shortDescription': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      'timeInfo':'3 mins ago',
+      'commentInfo': '50 comments'
+    },
+    {
+      'photoUrl': 'assets/images/news2.jpg',
+      'title': 'Age Of Empires',
+      'shortDescription': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      'timeInfo':'5 mins ago',
+      'commentInfo': '7 comments'
+    },
+    {
+      'photoUrl': 'assets/images/news3.jpg',
+      'title': 'Super Mario',
+      'shortDescription': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      'timeInfo':'8 mins ago',
+      'commentInfo': '15 comments'
+    },
+    {
+      'photoUrl': 'assets/images/news4.jpg',
+      'title': 'Attack On Titan',
+      'shortDescription': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      'timeInfo':'13 mins ago',
+      'commentInfo': '15 comments'
+    },
+    {
+      'photoUrl': 'assets/images/news5.jpg',
+      'title': 'Call Of Duty',
+      'shortDescription': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      'timeInfo':'3 mins ago',
+      'commentInfo': '5 comments'
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarMain(context),
-      body: SingleChildScrollView(
-        child: Column(
+      body: ListView(
+        padding: EdgeInsets.all(20),
         children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 5),
-            height: MediaQuery.of(context).size.height-380,
-            alignment: Alignment.center,
-              child: Scrollbar(
-                child: GridView.count(
-                  scrollDirection: Axis.vertical,
-                  crossAxisCount: 2 ,
-                  children: List.generate(6,(index){
-                    return Container(
-                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                      child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 55),
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),  color: Colors.amber,),
-                        child: Text ('Accessible Gaming News!',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold
-                              ),
-                          textAlign: TextAlign.center,
-                        ),
-                      )
-                    );
-                  }),
-                ),
-          ),
-          ),
-          Container(
-            padding: EdgeInsets.symmetric(vertical: 50),
-            child: Column(
-              children: [
-                Container(
-                  color: Colors.blueGrey,
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                  child: Text('We should celebrate neurodiversity. The world would be poorer and life duller if we were all the same.',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontStyle: FontStyle.italic
-                  )
-              )),
-                Container(
-                  alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                  child: Text ('- Neil Milliken',
-                  style: TextStyle(color: Colors.white, fontSize: 24)
-                ))
-            ]),
-          ),
-        ]),
+          Text('Latest News', style: TextStyle(fontSize: 24, color: Color(Constants.colors['green'])),),
+          SizedBox(height: 15,),
+          ...newsCollection.map((newsInfo) => Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 15),
+            child: NewsTile(
+              photoUrl: newsInfo['photoUrl'],
+              title: newsInfo['title'],
+              shortDescription: newsInfo['shortDescription'],
+              timeInfo: newsInfo['timeInfo'],
+              commentInfo: newsInfo['commentInfo']
+            ),
+          ))
+        ],
       ),
         drawer: MyDrawer ()
       );
