@@ -122,19 +122,20 @@ class HelperFunctions{
   }
 
   //get user full details
-  static Future<Map> getUserProfileFromSharedPreference() async{
+  static Future<Map> getUserProfileFromSharedPreference() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Map userInfo = {
-      'docId' : prefs.getString(sharedPreferenceDocumentIdKey),
-      'email' : prefs.getString(sharedPreferenceUserEmailKey),
-      'isLoggedIn' : prefs.getBool(sharedPreferenceUserLoggedInKey),
+      'docId': prefs.getString(sharedPreferenceDocumentIdKey),
+      'email': prefs.getString(sharedPreferenceUserEmailKey),
+      'isLoggedIn': prefs.getBool(sharedPreferenceUserLoggedInKey),
       'userType': prefs.getString(sharedPreferenceUserTypeKey),
-      'name' : prefs.getString(sharedPreferenceUserNameKey),
-      'title' : prefs.getString(sharedPreferenceTitleKey),
-      'companyName' : prefs.getString(sharedPreferenceCompanyNameKey),
-      'bio' : prefs.getString(sharedPreferenceBioKey)
+      'name': prefs.getString(sharedPreferenceUserNameKey),
+      'title': prefs.getString(sharedPreferenceTitleKey),
+      'companyName': prefs.getString(sharedPreferenceCompanyNameKey),
+      'bio': prefs.getString(sharedPreferenceBioKey)
     };
     return userInfo;
+  }
 
   static Future<String> getPostTitleSharedPreference() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
