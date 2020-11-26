@@ -81,11 +81,11 @@ class _SignUpState extends State<SignUp> {
                       children: [
                         TextFormField(
                           validator: (val){
-                            return val.isEmpty || val.length < 4 ? "Please provide a valid username." : null;
+                            return val.isEmpty ? "Please provide a valid name." : null;
                           },
                           controller: userNameTextEditingController,
                           style: simpleTextStyle(),
-                          decoration: textFieldInputDecoration("username"),
+                          decoration: textFieldInputDecoration("name"),
                         ),
                         TextFormField(
                           validator: (val){

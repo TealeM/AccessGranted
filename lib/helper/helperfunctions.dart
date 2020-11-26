@@ -1,4 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HelperFunctions{
   
@@ -6,7 +7,11 @@ class HelperFunctions{
   static String sharedPreferenceUserNameKey = "USERNAMEKEY";
   static String sharedPreferenceUserEmailKey = "USEREMAILKEY";
   static String sharedPreferenceUserTypeKey = "USERTYPEKEY";
-  
+  static String sharedPreferenceTitleKey = 'TITLE';
+  static String sharedPreferenceCompanyNameKey = 'COMPANY_NAME';
+  static String sharedPreferenceBioKey = 'BIO';
+  static String sharedPreferenceDocumentIdKey = 'DOC_ID';
+
   //saving data to sharedPreference
 
   static Future<bool> saveUserLoggedInSharedPreference(bool isUserLoggedIn) async{
@@ -29,6 +34,43 @@ class HelperFunctions{
     return await prefs.setString(sharedPreferenceUserTypeKey, userType);
   }
 
+  static void saveOtherSharedPreferenceInfo(QuerySnapshot snapshotUserInfo) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(sharedPreferenceDocumentIdKey, snapshotUserInfo.docs[0].id);
+    prefs.setString(sharedPreferenceBioKey, snapshotUserInfo.docs[0].data()["bio"]);
+    prefs.setString(sharedPreferenceTitleKey, snapshotUserInfo.docs[0].data()["title"]);
+    prefs.setString(sharedPreferenceCompanyNameKey, snapshotUserInfo.docs[0].data()["companyName"]);
+  }
+
+  static Future<bool> updateUserSharedPreferenceProfile(Map userProfileMap) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool successFlag = true;
+    if(userProfileMap.containsKey('email')){
+      successFlag = successFlag && await prefs.setString(sharedPreferenceUserEmailKey, userProfileMap['email']);
+    }
+    if(userProfileMap.containsKey('isLoggedIn')){
+      successFlag = successFlag && await prefs.setString(sharedPreferenceUserLoggedInKey, userProfileMap['isLoggedIn']);
+    }
+    if(userProfileMap.containsKey('userType')){
+      successFlag = successFlag && await prefs.setString(sharedPreferenceUserTypeKey, userProfileMap['userType']);
+    }
+    if(userProfileMap.containsKey('name')){
+      successFlag = successFlag && await prefs.setString(sharedPreferenceUserNameKey, userProfileMap['name']);
+    }
+    if(userProfileMap.containsKey('title')){
+      successFlag = successFlag && await prefs.setString(sharedPreferenceTitleKey, userProfileMap['title']);
+    }
+    if(userProfileMap.containsKey('companyName')){
+      successFlag = successFlag && await prefs.setString(sharedPreferenceCompanyNameKey, userProfileMap['companyName']);
+    }
+    if(userProfileMap.containsKey('bio')){
+      successFlag = successFlag && await prefs.setString(sharedPreferenceBioKey, userProfileMap['bio']);
+    }
+    return successFlag;
+  }
+
+
+
   //getting data from Shared Preference
 
   static Future<bool> getUserLoggedInSharedPreference() async{
@@ -49,6 +91,27 @@ class HelperFunctions{
   static Future<String> getUserTypeSharedPreference() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(sharedPreferenceUserTypeKey);
+  }
+
+  static Future<String> getUserDocumentIdSharedPreference() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(sharedPreferenceDocumentIdKey);
+  }
+
+  //get user full details
+  static Future<Map> getUserProfileFromSharedPreference() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Map userInfo = {
+      'docId' : prefs.getString(sharedPreferenceDocumentIdKey),
+      'email' : prefs.getString(sharedPreferenceUserEmailKey),
+      'isLoggedIn' : prefs.getBool(sharedPreferenceUserLoggedInKey),
+      'userType': prefs.getString(sharedPreferenceUserTypeKey),
+      'name' : prefs.getString(sharedPreferenceUserNameKey),
+      'title' : prefs.getString(sharedPreferenceTitleKey),
+      'companyName' : prefs.getString(sharedPreferenceCompanyNameKey),
+      'bio' : prefs.getString(sharedPreferenceBioKey)
+    };
+    return userInfo;
   }
 
 }

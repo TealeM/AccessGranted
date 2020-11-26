@@ -47,6 +47,7 @@ class _SignInState extends State<SignIn> {
         HelperFunctions.saveUserNameSharedPreference(snapshotUserInfo.docs[0].data()["name"]); //this doesn't get executed<=====
         HelperFunctions.saveUserTypeSharedPreference(snapshotUserInfo.docs[0].data()["userType"]);
         HelperFunctions.saveUserEmailSharedPreference(emailTextEditingController.text);
+        HelperFunctions.saveOtherSharedPreferenceInfo(snapshotUserInfo);
 
         Navigator.pushReplacement(context, MaterialPageRoute(
             builder: (context) => HomeScreen()));
