@@ -1,7 +1,5 @@
-import 'package:access_granted/helper/authenticate.dart';
 import 'package:access_granted/helper/constants.dart';
 import 'package:access_granted/helper/helperfunctions.dart';
-import 'package:access_granted/services/auth.dart';
 import 'package:access_granted/views/aboutUs.dart';
 import 'package:access_granted/views/developerProfile.dart';
 import 'package:access_granted/views/search.dart';
@@ -9,10 +7,7 @@ import 'package:access_granted/views/chatRoomsScreen.dart';
 import 'package:access_granted/views/userProfile.dart';
 import 'package:access_granted/views/createPost.dart';
 import 'package:access_granted/views/homeScreen.dart';
-import 'package:access_granted/widgets/widget.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MyDrawer extends StatefulWidget {
   @override
@@ -20,17 +15,15 @@ class MyDrawer extends StatefulWidget {
 }
 
 class _MyDrawerState extends State<MyDrawer> {
-  String userType =  Constants.NORMAL_USER;
+  Map userProfileMap = {};
 
   @override
   void initState() {
-      //determine user type
-      HelperFunctions.getUserTypeSharedPreference().then((_userType) {
-      if(_userType != null){
+      //retrieve user info from shared preference
+      HelperFunctions.getUserProfileFromSharedPreference().then((_userProfileMap) {
           setState(() {
-            userType = _userType;
+            userProfileMap = _userProfileMap;
           });
-         }
       });
       super.initState();
   }
@@ -58,7 +51,7 @@ class _MyDrawerState extends State<MyDrawer> {
                         );
                       },
                     ),
-                    (userType == Constants.DEV_USER ?
+                    (userProfileMap.isNotEmpty && userProfileMap['userType'] == Constants.DEV_USER ?
                     ListTile(
                       title: Text('Create A Post', style: TextStyle(fontSize: 18, color: Color(Constants.colors['green']))),
                       onTap: () {
@@ -74,10 +67,21 @@ class _MyDrawerState extends State<MyDrawer> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(builder: (context) {
-                              if(userType == Constants.NORMAL_USER){
-                                return UserProfile();
+                              if(userProfileMap.isEmpty) return null;
+                              if(userProfileMap['userType'] == Constants.DEV_USER){
+                                return DeveloperProfile(
+                                    docId: userProfileMap['docId'], // unlikely to be null (every doc has a document id)
+                                    name: userProfileMap['name'] ?? 'N/A',
+                                    companyName: userProfileMap['companyName'] ?? 'N/A',
+                                    bio: userProfileMap['bio'] ?? 'N/A'
+                                );
                               }
-                              return DeveloperProfile();
+                              return UserProfile(
+                                  docId: userProfileMap['docId'], // unlikely to be null (every doc has a document id)
+                                  name: userProfileMap['name'] ?? 'N/A',
+                                  title: userProfileMap['title'] ?? 'N/A',
+                                  bio: userProfileMap['bio'] ?? 'N/A'
+                              );
                             })
                         );
                       },
