@@ -11,6 +11,11 @@ class HelperFunctions{
   static String sharedPreferenceCompanyNameKey = 'COMPANY_NAME';
   static String sharedPreferenceBioKey = 'BIO';
   static String sharedPreferenceDocumentIdKey = 'DOC_ID';
+  static String sharedPreferencePostTitleKey = "POSTTITLEKEY";
+  static String sharedPreferencePostGameDescKey = "GAMEDESCKEY";
+  static String sharedPreferencePostConsDescKey = "CONSDESCKEY";
+
+
 
   //saving data to sharedPreference
 
@@ -33,6 +38,7 @@ class HelperFunctions{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return await prefs.setString(sharedPreferenceUserTypeKey, userType);
   }
+
 
   static void saveOtherSharedPreferenceInfo(QuerySnapshot snapshotUserInfo) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -71,6 +77,22 @@ class HelperFunctions{
 
 
 
+  static Future<bool> savePostTitleSharedPreference(String postTitle) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return await prefs.setString(sharedPreferencePostTitleKey, postTitle);
+  }
+
+  static Future<bool> savePostGameDescSharedPreference(String postGameDesc) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return await prefs.setString(sharedPreferencePostGameDescKey, postGameDesc);
+  }
+
+  static Future<bool> savePostConsDescSharedPreference(String postConsDesc) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return await prefs.setString(sharedPreferencePostConsDescKey, postConsDesc);
+  }
+
+
   //getting data from Shared Preference
 
   static Future<bool> getUserLoggedInSharedPreference() async{
@@ -93,6 +115,7 @@ class HelperFunctions{
     return prefs.getString(sharedPreferenceUserTypeKey);
   }
 
+
   static Future<String> getUserDocumentIdSharedPreference() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(sharedPreferenceDocumentIdKey);
@@ -112,6 +135,20 @@ class HelperFunctions{
       'bio' : prefs.getString(sharedPreferenceBioKey)
     };
     return userInfo;
+
+  static Future<String> getPostTitleSharedPreference() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(sharedPreferencePostTitleKey);
+  }
+
+  static Future<String> getPostGameDescSharedPreference() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(sharedPreferencePostGameDescKey,);
+  }
+
+  static Future<String> getPostConsDescSharedPreference() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(sharedPreferencePostConsDescKey);
   }
 
 }

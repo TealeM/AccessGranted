@@ -63,7 +63,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Image.asset("assets/images/logo.png",
+        title: Image.asset("assets/images/AGLogo.png",
           height: 50,),
         actions: [
           GestureDetector(

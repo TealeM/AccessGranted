@@ -1,7 +1,6 @@
 import 'package:access_granted/helper/helperfunctions.dart';
 import 'package:access_granted/services/auth.dart';
 import 'package:access_granted/services/database.dart';
-import 'package:access_granted/views/chatRoomsScreen.dart';
 import 'package:access_granted/views/homeScreen.dart';
 import 'package:access_granted/widgets/widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

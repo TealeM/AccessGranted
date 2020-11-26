@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:access_granted/helper/constants.dart';
 
 Widget appBarMain(BuildContext context) {
-  return AppBar(title: Image.asset("assets/images/logo.png",
-    height: 50,
+  return AppBar(title: Image.asset("assets/images/AGLogo.png",
+    height: 100,
   ),
     //title: TextField(decoration: textFieldInputDecoration("I can't get images working here"),)
   );

@@ -1,5 +1,6 @@
 import 'package:access_granted/helper/constants.dart';
 import 'package:access_granted/helper/drawer.dart';
+import 'package:access_granted/widgets/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:access_granted/widgets/editableLabeledInfo.dart';
 import 'package:access_granted/helper/helperfunctions.dart';
@@ -45,9 +46,7 @@ class _DeveloperProfileState extends State<DeveloperProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text('Developer Profile')
-      ),
+      appBar: appBarMain(context),
         floatingActionButton: canEditProfile ? FloatingActionButton(
           onPressed: () {
             if(isUpdating) return;

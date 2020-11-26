@@ -1,6 +1,15 @@
+import 'dart:io';
+
+import 'package:access_granted/helper/helperfunctions.dart';
+import 'package:access_granted/services/auth.dart';
+import 'package:access_granted/services/database.dart';
+import 'package:access_granted/widgets/widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:access_granted/helper/constants.dart';
 import 'package:access_granted/helper/drawer.dart';
+
+import 'homeScreen.dart';
 
 class CreatePost extends StatefulWidget {
   @override
@@ -8,19 +17,44 @@ class CreatePost extends StatefulWidget {
 }
 
 class _CreatePostState extends State<CreatePost> {
+
+  DatabaseMethods databaseMethods = new DatabaseMethods();
+  AuthMethods authMethods = new AuthMethods();
+
   final _formKey = GlobalKey<FormState>();
 
-  //will contain form input data after validation
-  String title = '';
-  String gameDescription = '';
-  String consultDescription = '';
+  String postTitle;
+  String postGameDesc;
+  String postConsDesc;
+  String postDevID;
+
+  createPost() async {
+    if(_formKey.currentState.validate()) {
+
+      postDevID = await authMethods.getUID();
+      Map<String, String> postInfoMap = {
+        "title": postTitle,
+        "gamedesc": postGameDesc,
+        "consdesc": postConsDesc,
+        "devid": postDevID
+      };
+
+      HelperFunctions.savePostTitleSharedPreference(postTitle);
+      HelperFunctions.savePostGameDescSharedPreference(postGameDesc);
+      HelperFunctions.savePostConsDescSharedPreference(postConsDesc);
+
+      // setState(() {
+      //   isLoading = true;
+      // });
+
+      databaseMethods.uploadPostInfo(postInfoMap);
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('New Post'),
-      ),
+      appBar: appBarMain(context),
       body: Form(
         key: _formKey,
         child: Scrollbar(
@@ -53,6 +87,7 @@ class _CreatePostState extends State<CreatePost> {
                     validator: (val){
                       return val.isEmpty ? "Invalid input." : null;
                     },
+                    //controller: postTitle,
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       filled: true,
@@ -61,9 +96,9 @@ class _CreatePostState extends State<CreatePost> {
                     ),
                     onChanged: (value) {
                       setState(() {
-                        title = value;
+                        postTitle = value;
                       });
-                    },
+                     },
                   ),
                 ),
                 SizedBox(height: 20),
@@ -80,7 +115,7 @@ class _CreatePostState extends State<CreatePost> {
                       alignLabelWithHint: true
                     ),
                     onChanged: (value) {
-                      gameDescription = value;
+                      postGameDesc = value;
                     },
                     maxLines: 5,
                   ),
@@ -99,7 +134,7 @@ class _CreatePostState extends State<CreatePost> {
                       alignLabelWithHint: true
                     ),
                     onChanged: (value) {
-                      consultDescription = value;
+                      postConsDesc = value;
                     },
                     maxLines: 5,
                   ),
@@ -116,9 +151,18 @@ class _CreatePostState extends State<CreatePost> {
                       // otherwise.
                       if (_formKey.currentState.validate()) {
                         //do post stuff
-                        print('-----------------');
-                        print('--- VALIDATED ---');
-                        print('-----------------');
+                        createPost();
+
+                        // print('-----------------');
+                        // print('--- VALIDATED ---');
+                        // print('-----------------');
+
+
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => (HomeScreen()))
+                        );
                       }
                     },
                     child: Text(

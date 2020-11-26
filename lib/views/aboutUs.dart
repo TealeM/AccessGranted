@@ -1,4 +1,5 @@
 import 'package:access_granted/helper/drawer.dart';
+import 'package:access_granted/widgets/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -6,9 +7,7 @@ class AboutUs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("About Us")
-        ),
+        appBar: appBarMain(context),
 
         body: SingleChildScrollView(
           child: Scrollbar(
@@ -17,28 +16,37 @@ class AboutUs extends StatelessWidget {
               Container (
                 padding: EdgeInsets.symmetric(vertical: 20),
                 child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 140),
+                  width: 400,
+                  height: 40,
+                  //padding: EdgeInsets.symmetric(vertical: 5, horizontal: 100),
                   color: Color(0xFF1EA699),
-                  child: Text ('OUR STORY', style: TextStyle(fontSize: 24))
+                  child: Center(
+                      child: Text ('OUR MISSION', style: TextStyle(fontSize: 24, color: Colors.white))
+                  ),
                 )
               ),
                 Container(
-                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
-                  child: Text('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ',
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child:
+                  Text('Access Granted was founded by six university students who believe in equal and authentic representation within games. The team hopes for Access Granted to be a community hub for both developers and marginalized gamers to speak to each other, and be heard by one another. Above all, the team created Access Granted to provide a space for marginalized individuals to have a voice within the vast gaming industry.',
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.white, fontSize: 24)
+                  ),
+                ),
+              Container (
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  child: Container(
+                    width: 400,
+                    height: 40,
+                    //padding: EdgeInsets.symmetric(vertical: 5, horizontal: 100),
+                    color: Color(0xFF1EA699),
+                    child: Center(
+                        child: Text ('THE TEAM', style: TextStyle(fontSize: 24, color: Colors.white))
+                    ),
                   )
-                ),
-                Container (
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 111),
-                        color: Color(0xFF1EA699),
-                        child: Text ('MEET THE TEAM', style: TextStyle(fontSize: 24))
-                    )
-                ),
+              ),
                 Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: 10),
                     child: Column(
                       children: [
                         Container(

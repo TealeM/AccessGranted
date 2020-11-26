@@ -19,9 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Welcome to Access Granted!"),
-      ),
+      appBar: appBarMain(context),
       body: SingleChildScrollView(
         child: Column(
         children: [

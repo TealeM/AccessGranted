@@ -9,6 +9,9 @@ class DatabaseMethods{
         .where("name", isEqualTo: username).get();
   }
 
+
+
+
   doSearch(String username) async{
     String userType = Constants.NORMAL_USER;
     Map opponents = {
@@ -33,6 +36,7 @@ class DatabaseMethods{
           print(e.toString());
     });
   }
+
       //.docs[0].data()["name"]
   uploadUserInfo(userMap) {
     FirebaseFirestore.instance.collection("users")
@@ -70,4 +74,13 @@ class DatabaseMethods{
   getChatRooms(String userName) async {
     return await FirebaseFirestore.instance.collection("ChatRoom").where("users", arrayContains: userName).snapshots();
   }
+  uploadPostInfo(Map<String, String> postMap) {
+    FirebaseFirestore.instance.collection("Posts")
+        .add(postMap).catchError((e) {
+      print(e.toString());
+    });
+  }
+
+
+
 }
