@@ -1,5 +1,6 @@
 import 'package:access_granted/helper/constants.dart';
 import 'package:access_granted/helper/helperfunctions.dart';
+import 'package:access_granted/services/auth.dart';
 import 'package:access_granted/views/aboutUs.dart';
 import 'package:access_granted/views/developerProfile.dart';
 import 'package:access_granted/views/search.dart';
@@ -9,6 +10,8 @@ import 'package:access_granted/views/createPost.dart';
 import 'package:access_granted/views/homeScreen.dart';
 import 'package:flutter/material.dart';
 
+import 'authenticate.dart';
+
 class MyDrawer extends StatefulWidget {
   @override
   _MyDrawerState createState() => _MyDrawerState();
@@ -16,6 +19,8 @@ class MyDrawer extends StatefulWidget {
 
 class _MyDrawerState extends State<MyDrawer> {
   Map userProfileMap = {};
+  AuthMethods authMethods = new AuthMethods();
+
 
   @override
   void initState() {
@@ -114,7 +119,15 @@ class _MyDrawerState extends State<MyDrawer> {
                             MaterialPageRoute(
                                 builder: (context) => AboutUs())
                         );
-
+                      },
+                    ),
+                    ListTile(
+                      title: Text('Sign Out', style: TextStyle(fontSize: 18, color: Color(Constants.colors['green']))),
+                      onTap: () {
+                        authMethods.signOut();
+                        Navigator.pushReplacement(context, MaterialPageRoute(
+                            builder: (context) => Authenticate()
+                        ));
                       },
                     ),
                   ]),

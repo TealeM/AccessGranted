@@ -62,23 +62,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Image.asset("assets/images/AGLogo.png",
-          height: 50,),
-        actions: [
-          GestureDetector(
-            onTap: (){
-              authMethods.signOut();
-               Navigator.pushReplacement(context, MaterialPageRoute(
-                   builder: (context) => Authenticate()
-               ));
-            },
-            child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Icon(Icons.exit_to_app)),
-          )
-        ],
-      ),
+      appBar: appBarMain(context),
       body: Container(
         child: chatRoomList(),
       ),

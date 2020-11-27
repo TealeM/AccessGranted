@@ -68,7 +68,7 @@ class _CreatePostState extends State<CreatePost> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Give Us The Details',
+                      'Provide details for your new post.',
                       style: TextStyle(
                         fontSize: 18,
                         color: Color(Constants.colors['white']),

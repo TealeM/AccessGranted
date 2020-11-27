@@ -20,9 +20,9 @@ class NewsTile extends StatelessWidget{
               padding: EdgeInsets.all(15.0),
               child: Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Text(title, style: TextStyle(fontSize: 18)),],
+                  Wrap(
+                  //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [Text(title, style: TextStyle(fontSize: 18),),],
                   ),
                   SizedBox(height: 10.0),
                   Row(

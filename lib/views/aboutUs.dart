@@ -8,11 +8,11 @@ class AboutUs extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: appBarMain(context),
-
         body: SingleChildScrollView(
           child: Scrollbar(
             child: Column(
             children: [
+              Container (padding: EdgeInsets.only(top: 30), child: Image.asset('assets/images/AGLogoIcon.png', width: 200, ),),
               Container (
                 padding: EdgeInsets.symmetric(vertical: 20),
                 child: Container(
@@ -28,7 +28,7 @@ class AboutUs extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   child:
-                  Text('Access Granted was founded by six university students who believe in equal and authentic representation within games. The team hopes for Access Granted to be a community hub for both developers and marginalized gamers to speak to each other, and be heard by one another. Above all, the team created Access Granted to provide a space for marginalized individuals to have a voice within the vast gaming industry.',
+                  Text('Access Granted was founded by six university students who believe in equal and authentic representation in games. The team hopes for Access Granted to be a community hub for both developers and marginalized gamers to collaborate. Above all, the team created Access Granted to provide a space for marginalized individuals to have a voice within the vast gaming industry.',
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.white, fontSize: 24)
                   ),
@@ -54,7 +54,10 @@ class AboutUs extends StatelessWidget {
                           child: Row(
                             children: [
                               CircleAvatar(
-                                radius: 70
+                                  radius: 70,
+                                  backgroundColor: Colors.black,
+                                  backgroundImage: AssetImage('assets/images/TaylorPhoto.png'
+                                  )
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 20),
@@ -68,7 +71,10 @@ class AboutUs extends StatelessWidget {
                           child: Row(
                               children: [
                                 CircleAvatar(
-                                    radius: 70
+                                    radius: 70,
+                                    backgroundColor: Colors.black,
+                                    backgroundImage: AssetImage('assets/images/BriannaPhoto.png'
+                                    )
                                 ),
                                 Container(
                                     padding: EdgeInsets.only(left: 20),
@@ -82,7 +88,10 @@ class AboutUs extends StatelessWidget {
                           child: Row(
                               children: [
                                 CircleAvatar(
-                                    radius: 70
+                                    radius: 70,
+                                    backgroundColor: Colors.black,
+                                    backgroundImage: AssetImage('assets/images/TealePhoto.png'
+                                    )
                                 ),
                                 Container(
                                     padding: EdgeInsets.only(left: 20),
@@ -96,7 +105,10 @@ class AboutUs extends StatelessWidget {
                           child: Row(
                               children: [
                                 CircleAvatar(
-                                    radius: 70
+                                    radius: 70,
+                                    backgroundColor: Colors.black,
+                                    backgroundImage: AssetImage('assets/images/DerekPhoto.png'
+                                    )
                                 ),
                                 Container(
                                     padding: EdgeInsets.only(left: 20),
@@ -110,7 +122,10 @@ class AboutUs extends StatelessWidget {
                           child: Row(
                               children: [
                                 CircleAvatar(
-                                    radius: 70
+                                    radius: 70,
+                                    backgroundColor: Colors.black,
+                                    backgroundImage: AssetImage('assets/images/KailenPhoto.png'
+                                    )
                                 ),
                                 Container(
                                     padding: EdgeInsets.only(left: 20),
@@ -124,7 +139,10 @@ class AboutUs extends StatelessWidget {
                           child: Row(
                               children: [
                                 CircleAvatar(
-                                    radius: 70
+                                    radius: 70,
+                                    backgroundColor: Colors.black,
+                                    backgroundImage: AssetImage('assets/images/JamesPhoto.png'
+                                    )
                                 ),
                                 Container(
                                     padding: EdgeInsets.only(left: 20),

@@ -1,5 +1,6 @@
 import 'package:access_granted/helper/constants.dart';
 import 'package:access_granted/helper/drawer.dart';
+import 'package:access_granted/widgets/iconNumberCard.dart';
 import 'package:access_granted/widgets/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:access_granted/widgets/editableLabeledInfo.dart';
@@ -88,6 +89,27 @@ class _DeveloperProfileState extends State<DeveloperProfile> {
                     )
                 ),
                 SizedBox(height: 15.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    IconNumberCard(
+                      icon: Icons.star,
+                      number: "4.5",
+                      description: "Average Rating",
+                      handleClick: (){
+                        print("clicked");
+                      },
+                    ),
+                    IconNumberCard(
+                      icon: Icons.work,
+                      number: "25",
+                      description: "Total Projects",
+                      handleClick: (){
+                        print("clicked");
+                      },
+                    ),
+                  ],
+                )
               ],
             ),
           ),

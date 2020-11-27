@@ -1,11 +1,13 @@
+import 'package:access_granted/helper/authenticate.dart';
+import 'package:access_granted/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:access_granted/helper/constants.dart';
 
+
 Widget appBarMain(BuildContext context) {
-  return AppBar(title: Image.asset("assets/images/AGLogo.png",
-    height: 100,
-  ),
-    //title: TextField(decoration: textFieldInputDecoration("I can't get images working here"),)
+  return AppBar(
+    title: Image.asset("assets/images/AGLogo.png",
+      height: 50,),
   );
 }
 
