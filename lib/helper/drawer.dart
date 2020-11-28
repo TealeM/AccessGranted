@@ -92,7 +92,8 @@ class _MyDrawerState extends State<MyDrawer> {
                       },
                     ),
                     ListTile(
-                      title: Text('Search Users', style: TextStyle(fontSize: 18, color: Color(Constants.colors['green']))),
+                      title: Text(userProfileMap.isNotEmpty && userProfileMap['userType'] == Constants.DEV_USER ?
+                          'Search Users' : 'Search Posts', style: TextStyle(fontSize: 18, color: Color(Constants.colors['green']))),
                       onTap: () {
                         Navigator.pushReplacement(
                             context,
