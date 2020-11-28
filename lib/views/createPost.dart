@@ -27,28 +27,32 @@ class _CreatePostState extends State<CreatePost> {
   String postGameDesc;
   String postConsDesc;
   String postDevID;
+  String postDevName;
 
   createPost() async {
     if(_formKey.currentState.validate()) {
 
       postDevID = await authMethods.getUID();
+      postDevName = await HelperFunctions.getUserNameSharedPreference();
       Map<String, String> postInfoMap = {
         "title": postTitle,
         "gamedesc": postGameDesc,
         "consdesc": postConsDesc,
-        "devid": postDevID
+        "devid": postDevID,
+        "devname": postDevName
       };
 
       HelperFunctions.savePostTitleSharedPreference(postTitle);
       HelperFunctions.savePostGameDescSharedPreference(postGameDesc);
       HelperFunctions.savePostConsDescSharedPreference(postConsDesc);
 
+
       // setState(() {
       //   isLoading = true;
       // });
 
       databaseMethods.uploadPostInfo(postInfoMap);
-    };
+    }
   }
 
   @override

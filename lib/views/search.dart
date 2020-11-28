@@ -29,7 +29,8 @@ class _SearchScreenState extends State<SearchScreen> {
             return postTile(
                 title: searchSnapshot.docs[index].data()["title"],
                 gameDesc: searchSnapshot.docs[index].data()["gamedesc"],
-                consultationDesc: searchSnapshot.docs[index].data()["consdesc"]
+                consultationDesc: searchSnapshot.docs[index].data()["consdesc"],
+                devName: searchSnapshot.docs[index].data()["devname"]
             );
           }) : Container();
     } else if (opponentUserType == "community") {
@@ -54,7 +55,7 @@ class _SearchScreenState extends State<SearchScreen> {
         .then((val){
           setState(() {
             searchSnapshot = val;
-           // print(searchSnapshot.docs[0].data());
+            print(searchSnapshot.docs[0].data());
           });
     });
     Map opponents = {
@@ -72,6 +73,7 @@ class _SearchScreenState extends State<SearchScreen> {
   createChatroomAndStartConversation(String userName){
 
     //if(userName != Constants.myName) {
+    print(Constants.myName);
       String chatRoomId = getChatRoomId(userName, Constants.myName);
 
       List<String> users = [userName, Constants.myName];
@@ -123,7 +125,7 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  Widget postTile({String title, String gameDesc, String consultationDesc}) {
+  Widget postTile({String title, String gameDesc, String consultationDesc, String devName}) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       child: Row(
@@ -139,7 +141,7 @@ class _SearchScreenState extends State<SearchScreen> {
           Spacer(),
           GestureDetector(
             onTap: (){
-              createChatroomAndStartConversation(title);
+              createChatroomAndStartConversation(devName);
             },
             child: Container(
               decoration: BoxDecoration(
@@ -224,6 +226,8 @@ class _SearchScreenState extends State<SearchScreen> {
 
 
 getChatRoomId(String a, String b) {
+  print(a);
+  print(b);
   if (a.substring(0,1).codeUnitAt(0) > b.substring(0,1).codeUnitAt(0)) {
     return "$b\_$a";
   } else {
