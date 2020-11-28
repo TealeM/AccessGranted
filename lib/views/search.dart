@@ -18,27 +18,53 @@ class _SearchScreenState extends State<SearchScreen> {
   TextEditingController searchTextEditingController = new TextEditingController();
 
   String _myName;
+  String opponentUserType;
 
   Widget searchList(){
-    return searchSnapshot != null ? ListView.builder(
-        itemCount: searchSnapshot.docs.length,
-        shrinkWrap: true,
-        itemBuilder: (context, index){
-          return SearchTile(
-            userName: searchSnapshot.docs[index].data()["name"],
-            userEmail: searchSnapshot.docs[index].data()["email"],
-          );
-        }) : Container();
+    if (opponentUserType == "developer") {
+      return searchSnapshot != null ? ListView.builder(
+          itemCount: searchSnapshot.docs.length,
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return postTile(
+                title: searchSnapshot.docs[index].data()["title"],
+                gameDesc: searchSnapshot.docs[index].data()["gamedesc"],
+                consultationDesc: searchSnapshot.docs[index].data()["consdesc"]
+            );
+          }) : Container();
+    } else if (opponentUserType == "community") {
+      return searchSnapshot != null ? ListView.builder(
+          itemCount: searchSnapshot.docs.length,
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return SearchTile(
+              userName: searchSnapshot.docs[index].data()["name"],
+              userEmail: searchSnapshot.docs[index].data()["email"],
+            );
+          }) : Container();
+    } else {
+      return Container();
+    }
   }
 
   QuerySnapshot searchSnapshot;
 
-  initiateSearch(){
+  initiateSearch() async {
     databaseMethods.doSearch(searchTextEditingController.text)
         .then((val){
           setState(() {
             searchSnapshot = val;
+           // print(searchSnapshot.docs[0].data());
           });
+    });
+    Map opponents = {
+      Constants.COMMUNITY_USER : Constants.DEV_USER,
+      Constants.DEV_USER : Constants.COMMUNITY_USER
+    };
+    await HelperFunctions.getUserTypeSharedPreference().then((_userType) {
+      if(_userType != null){
+        opponentUserType = opponents[_userType];
+      }
     });
   }
 
@@ -82,6 +108,38 @@ class _SearchScreenState extends State<SearchScreen> {
           GestureDetector(
             onTap: (){
               createChatroomAndStartConversation(userName);
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.circular(30)
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              child: Text("Message", style: mediumTextStyle()),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget postTile({String title, String gameDesc, String consultationDesc}) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      child: Row(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(title, style: simpleTextStyle(),),
+              Text(gameDesc, style: simpleTextStyle(),),
+              Text(consultationDesc, style: simpleTextStyle(),)
+            ],
+          ),
+          Spacer(),
+          GestureDetector(
+            onTap: (){
+              createChatroomAndStartConversation(title);
             },
             child: Container(
               decoration: BoxDecoration(

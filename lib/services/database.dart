@@ -23,16 +23,35 @@ class DatabaseMethods{
         userType = opponents[_userType];
       }
     });
-    return await FirebaseFirestore.instance.collection("users")
-        .where("name", isEqualTo: username).where("userType", isEqualTo: userType).get();
+    if (userType == "community") {
+      return await FirebaseFirestore.instance.collection("users")
+          .where("name", isEqualTo: username).where(
+          "userType", isEqualTo: userType).get();
+    } else if (userType == "developer") {
+      return await FirebaseFirestore.instance.collection("Posts")
+          .where("title", isEqualTo: username).get();
+    }
+  }
+
+  differentiateUser() async {
+    Future userType;
+    Map opponents = {
+      Constants.COMMUNITY_USER : Constants.DEV_USER,
+      Constants.DEV_USER : Constants.COMMUNITY_USER
+    };
+    await HelperFunctions.getUserTypeSharedPreference().then((_userType) {
+      if(_userType != null){
+        userType = opponents[_userType];
+      }
+    });
+    return userType;
   }
 
   getUserByUserEmail(String userEmail) async {
-    print("your email is $userEmail");
+    //print("your email is $userEmail");
     return await FirebaseFirestore.instance.collection("users")
         .where("email", isEqualTo: userEmail).get()
         .catchError((e) {
-          print("THERE");
           print(e.toString());
     });
   }
