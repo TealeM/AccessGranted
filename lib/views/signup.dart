@@ -108,7 +108,7 @@ class _SignUpState extends State<SignUp> {
                           validator: (val){
                             return val == null ?  "Please choose an option" : null;
                           },
-                          items: [Constants.NORMAL_USER, Constants.DEV_USER].map((userType) => DropdownMenuItem(
+                          items: [Constants.COMMUNITY_USER, Constants.DEV_USER].map((userType) => DropdownMenuItem(
                             child: Text(userType.toString()),
                             value: userType,
                           )).toList(),

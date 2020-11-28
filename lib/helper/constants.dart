@@ -2,7 +2,7 @@ class Constants{
 
   static String myName = "";
 
-  static const String NORMAL_USER = "tester";
+  static const String COMMUNITY_USER = "community";
   static const String DEV_USER = "developer";
 
   //contains all colors for the app.

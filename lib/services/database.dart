@@ -13,10 +13,10 @@ class DatabaseMethods{
 
 
   doSearch(String username) async{
-    String userType = Constants.NORMAL_USER;
+    String userType = Constants.COMMUNITY_USER;
     Map opponents = {
-      Constants.NORMAL_USER : Constants.DEV_USER,
-      Constants.DEV_USER : Constants.NORMAL_USER
+      Constants.COMMUNITY_USER : Constants.DEV_USER,
+      Constants.DEV_USER : Constants.COMMUNITY_USER
     };
     await HelperFunctions.getUserTypeSharedPreference().then((_userType) {
       if(_userType != null){
