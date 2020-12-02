@@ -39,3 +39,11 @@ TextStyle mediumTextStyle(){
   fontSize: 17
   );
 }
+
+TextStyle boldTextStyle(){
+  return TextStyle(
+      color: Color(Constants.colors['white']),
+      fontSize: 16,
+      fontWeight: FontWeight.bold
+  );
+}

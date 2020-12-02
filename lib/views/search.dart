@@ -128,14 +128,14 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget postTile({String title, String gameDesc, String consultationDesc, String devName}) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-      child: Row(
+      child: Wrap(
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: simpleTextStyle(),),
-              Text(gameDesc, style: simpleTextStyle(),),
-              Text(consultationDesc, style: simpleTextStyle(),)
+              Text(title+"\n", style: boldTextStyle(),),
+              Text(gameDesc+"\n", style: simpleTextStyle(),),
+              Text(consultationDesc+"\n", style: simpleTextStyle(),)
             ],
           ),
           Spacer(),
@@ -181,7 +181,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         controller: searchTextEditingController,
                         style: TextStyle(color: Colors.white),
                         decoration: InputDecoration(
-                          hintText: "search username...",
+                          hintText: "search...",
                           hintStyle: TextStyle(
                             color: Colors.white54
                           ),
