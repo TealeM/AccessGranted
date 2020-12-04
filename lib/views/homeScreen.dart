@@ -15,39 +15,44 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List <Map> newsCollection = [
     {
-      'photoUrl': 'assets/images/news1.jpg',
-      'title': 'New accessible features added to God of War!',
-      'shortDescription': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      'photoUrl': 'assets/images/news1.png',
+      'title': 'For physically disabled gamers, the Switch is incredibly accessible.',
+      'shortDescription': 'Washington Post: Writer with Spinal Muscular Atrophy Type II praises Nintendo Switch.',
       'timeInfo':'3 mins ago',
-      'commentInfo': '50 comments'
+      'commentInfo': '50 comments',
+      'tileIndex': 1
     },
     {
-      'photoUrl': 'assets/images/news2.jpg',
-      'title': 'Age Of Empires accessible version releasing next week.',
-      'shortDescription': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      'photoUrl': 'assets/images/news2.png',
+      'title': 'Last of Us Part II: Is this the most accessible game ever?',
+      'shortDescription': 'BBC: \"The first time Steve Saylor fired up the hotly-anticipated new game The Last of Us Part II, he burst into tears.\"',
       'timeInfo':'5 mins ago',
-      'commentInfo': '7 comments'
+      'commentInfo': '7 comments',
+      'tileIndex': 2
     },
     {
       'photoUrl': 'assets/images/news3.jpg',
-      'title': 'Super Mario faces criticism for misrepresenting Italian culture.',
-      'shortDescription': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      'title': 'Not so white, male and straight: the video games industry is changing',
+      'shortDescription': 'The Guardian: BAME and LGBTQ+ representation is above the average for the UK’s creative industries, while the number of women in the games industry is creeping upwards.',
       'timeInfo':'8 mins ago',
-      'commentInfo': '15 comments'
+      'commentInfo': '15 comments',
+      'tileIndex': 3
     },
     {
-      'photoUrl': 'assets/images/news4.jpg',
-      'title': 'How Attack On Titan has further marginalized players with ASD.',
-      'shortDescription': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      'photoUrl': 'assets/images/news4.png',
+      'title': 'A History Of Accessibility In Video Games.',
+      'shortDescription': '\"The subject of accessibility in games has arguably been an ongoing one since the medium\'s very beginning\"',
       'timeInfo':'13 mins ago',
-      'commentInfo': '15 comments'
+      'commentInfo': '15 comments',
+      'tileIndex': 4
     },
     {
-      'photoUrl': 'assets/images/news5.jpg',
-      'title': 'Deaf community shares their experiences playing Call Of Duty.',
-      'shortDescription': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      'photoUrl': 'assets/images/news5.png',
+      'title': 'Breaking Misconceptions About Accessibility With AbleGamers\' Greg Haynes.',
+      'shortDescription': '\"We’re talking about being able to remove barriers to play\"',
       'timeInfo':'3 mins ago',
-      'commentInfo': '5 comments'
+      'commentInfo': '5 comments',
+      'tileIndex': 5
     },
   ];
 
@@ -75,14 +80,18 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(height: 15,),
           ...newsCollection.map((newsInfo) => Padding(
             padding: EdgeInsets.fromLTRB(0, 0, 0, 15),
+
             child: NewsTile(
               photoUrl: newsInfo['photoUrl'],
               title: newsInfo['title'],
               shortDescription: newsInfo['shortDescription'],
               timeInfo: newsInfo['timeInfo'],
-              commentInfo: newsInfo['commentInfo']
+              commentInfo: newsInfo['commentInfo'],
+              tileIndex: newsInfo['tileIndex']
             ),
-          ))
+          )
+          )
+
         ],
       ),
         drawer: MyDrawer ()
