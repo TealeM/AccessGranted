@@ -78,14 +78,16 @@ class _MyDrawerState extends State<MyDrawer> {
                                     docId: userProfileMap['docId'], // unlikely to be null (every doc has a document id)
                                     name: userProfileMap['name'] ?? 'N/A',
                                     companyName: userProfileMap['companyName'] ?? 'N/A',
-                                    bio: userProfileMap['bio'] ?? 'N/A'
+                                    bio: userProfileMap['bio'] ?? 'N/A',
+                                    avatar: userProfileMap['avatar'],
                                 );
                               }
                               return UserProfile(
                                   docId: userProfileMap['docId'], // unlikely to be null (every doc has a document id)
                                   name: userProfileMap['name'] ?? 'N/A',
                                   title: userProfileMap['title'] ?? 'N/A',
-                                  bio: userProfileMap['bio'] ?? 'N/A'
+                                  bio: userProfileMap['bio'] ?? 'N/A',
+                                  avatar: userProfileMap['avatar'],
                               );
                             })
                         );

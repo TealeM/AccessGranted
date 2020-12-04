@@ -14,6 +14,7 @@ class HelperFunctions{
   static String sharedPreferencePostTitleKey = "POSTTITLEKEY";
   static String sharedPreferencePostGameDescKey = "GAMEDESCKEY";
   static String sharedPreferencePostConsDescKey = "CONSDESCKEY";
+  static String sharedPreferenceUserAvatarKey = 'AVATAR_KEY';
 
 
 
@@ -46,6 +47,7 @@ class HelperFunctions{
     prefs.setString(sharedPreferenceBioKey, snapshotUserInfo.docs[0].data()["bio"]);
     prefs.setString(sharedPreferenceTitleKey, snapshotUserInfo.docs[0].data()["title"]);
     prefs.setString(sharedPreferenceCompanyNameKey, snapshotUserInfo.docs[0].data()["companyName"]);
+    prefs.setString(sharedPreferenceUserAvatarKey, snapshotUserInfo.docs[0].data()["avatar"]);
   }
 
   static Future<bool> updateUserSharedPreferenceProfile(Map userProfileMap) async{
@@ -71,6 +73,9 @@ class HelperFunctions{
     }
     if(userProfileMap.containsKey('bio')){
       successFlag = successFlag && await prefs.setString(sharedPreferenceBioKey, userProfileMap['bio']);
+    }
+    if(userProfileMap.containsKey('avatar')){
+      successFlag = successFlag && await prefs.setString(sharedPreferenceUserAvatarKey, userProfileMap['avatar']);
     }
     return successFlag;
   }
@@ -132,7 +137,8 @@ class HelperFunctions{
       'name': prefs.getString(sharedPreferenceUserNameKey),
       'title': prefs.getString(sharedPreferenceTitleKey),
       'companyName': prefs.getString(sharedPreferenceCompanyNameKey),
-      'bio': prefs.getString(sharedPreferenceBioKey)
+      'bio': prefs.getString(sharedPreferenceBioKey),
+      'avatar' : prefs.getString(sharedPreferenceUserAvatarKey)
     };
     return userInfo;
   }

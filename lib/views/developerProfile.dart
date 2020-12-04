@@ -1,26 +1,31 @@
 import 'package:access_granted/helper/constants.dart';
 import 'package:access_granted/helper/drawer.dart';
-import 'package:access_granted/widgets/iconNumberCard.dart';
 import 'package:access_granted/widgets/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:access_granted/widgets/editableLabeledInfo.dart';
+import 'package:access_granted/widgets/iconNumberCard.dart';
 import 'package:access_granted/helper/helperfunctions.dart';
 import 'package:access_granted/services/database.dart';
-
+import 'dart:io';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class DeveloperProfile extends StatefulWidget{
 
   //user profile details
-  final String docId, name, companyName, bio;
-  DeveloperProfile({this.docId, this.name, this.companyName, this.bio});
+  final String docId, name, companyName, bio, avatar;
+  DeveloperProfile({this.docId, this.name, this.companyName, this.bio, this.avatar});
+
 
   @override
-  _DeveloperProfileState createState() => _DeveloperProfileState(docId: this.docId, name: this.name, companyName: this.companyName, bio: this.bio);
+  //set initial state from final arguments
+  _DeveloperProfileState createState() => _DeveloperProfileState(docId: this.docId, name: this.name, companyName: this.companyName, bio: this.bio, avatar: this.avatar);
 }
 
 class _DeveloperProfileState extends State<DeveloperProfile> {
 
-  String docId, name, companyName, bio;
+  String docId, name, companyName, bio, avatar;
   //determines if current user can edit current profile
   bool canEditProfile = false;
   //determines if current user is editing profile
@@ -28,8 +33,71 @@ class _DeveloperProfileState extends State<DeveloperProfile> {
   //determines if user profile is being updated
   bool isUpdating = false;
 
-  _DeveloperProfileState({this.docId, this.name, this.companyName, this.bio});
-  
+  //determines if an image is being uploaded
+  bool imageUploading = false;
+  //image picker 
+  final picker = ImagePicker();
+  //storage uploader
+  final FirebaseStorage storage = FirebaseStorage(storageBucket: 'gs://access-granted-b4763.appspot.com');
+  //database methods
+  final DatabaseMethods db = DatabaseMethods();
+
+
+  _DeveloperProfileState({this.docId, this.name, this.companyName, this.bio, this.avatar});
+
+  void _uploadImageAndUpdateProfile(File _croppedFile) async{
+    String extension = _croppedFile.path.split('.').last;
+    String filePath = 'images/${DateTime.now().millisecondsSinceEpoch}.$extension';
+    //show upload spinner and disable upload button
+    setState(() { imageUploading = true; });
+    //do image upload
+    StorageReference ref = storage.ref().child(filePath);
+    StorageUploadTask uploadTask = ref.putFile(_croppedFile);
+    StorageTaskSnapshot storageTaskSnapshot = await uploadTask.onComplete;
+    String downloadUrl = await storageTaskSnapshot.ref.getDownloadURL();
+    //prepare to update profile
+    Map <String, String> userProfileMap = {'docId':docId, 'avatar': downloadUrl};
+    //do profile update
+    db.updateUserInfo(userProfileMap).then((val){
+      //do shared preference update
+      HelperFunctions.updateUserSharedPreferenceProfile(userProfileMap).then((success){
+        if(success){
+          setState(() {
+            //hide upload spinner and enable upload button
+            imageUploading = false;
+            //update user profile in view
+            avatar = userProfileMap['avatar'];
+          });
+        }
+      });
+    }).catchError((e) {
+      print(e.toString());
+    });
+  }
+
+  Future <void> _getImage() async{
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      _cropImage(File(pickedFile.path));
+    }
+  }
+
+  Future <void> _cropImage(File _imageFile) async {
+    File croppedFile = await ImageCropper.cropImage(
+        sourcePath: _imageFile.path,
+        aspectRatioPresets: [CropAspectRatioPreset.square,],
+        androidUiSettings: AndroidUiSettings(
+            toolbarTitle: 'Crop It',
+            toolbarColor: Colors.deepOrange,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: true),
+        iosUiSettings: IOSUiSettings(
+          title: 'Crop It',
+        ));
+    if (croppedFile != null) _uploadImageAndUpdateProfile(croppedFile);
+  }
+
   @override
   void initState() {
     //verify if current user is accessing their own profile
@@ -43,11 +111,11 @@ class _DeveloperProfileState extends State<DeveloperProfile> {
     // TODO: implement initState
     super.initState();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarMain(context),
+        appBar: appBarMain(context),
         floatingActionButton: canEditProfile ? FloatingActionButton(
           onPressed: () {
             if(isUpdating) return;
@@ -58,7 +126,7 @@ class _DeveloperProfileState extends State<DeveloperProfile> {
             }else{
               isUpdating = true;
               Map <String, String> userProfileMap = {'docId':docId, 'name': name, 'companyName': companyName, 'bio': bio};
-              (new DatabaseMethods()).updateUserInfo(userProfileMap).then((val){
+              db.updateUserInfo(userProfileMap).then((val){
                 HelperFunctions.updateUserSharedPreferenceProfile(userProfileMap).then((success){
                   if(success){
                     setState(() {
@@ -75,81 +143,101 @@ class _DeveloperProfileState extends State<DeveloperProfile> {
           backgroundColor: Color(Constants.colors['green']),
           child: editMode ? Icon(Icons.save, size: 24) : Icon(Icons.create, size: 24),
         ) : null,
-      body: ListView(
-        children: [
-          Container(
-            padding: EdgeInsets.all(20),
-            color: Color(Constants.colors['lessBlack']),
-            child: Column(
-              children: [
-                CircleAvatar(
-                    radius: 70,
-                    backgroundColor: Color(Constants.colors['black']),
-                    backgroundImage: AssetImage('assets/images/avatar.png'
-                    )
-                ),
-                SizedBox(height: 15.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    IconNumberCard(
-                      icon: Icons.star,
-                      number: "4.5",
-                      description: "Average Rating",
-                      handleClick: (){
-                        print("clicked");
-                      },
-                    ),
-                    IconNumberCard(
-                      icon: Icons.work,
-                      number: "25",
-                      description: "Total Projects",
-                      handleClick: (){
-                        print("clicked");
-                      },
-                    ),
-                  ],
-                )
-              ],
+        body: ListView(
+          children: [
+            Container(
+              padding: EdgeInsets.all(20),
+              color: Color(Constants.colors['lessBlack']),
+              child: Column(
+                children: [
+                  Stack(
+                    children: [
+                      CircleAvatar(
+                          radius: 80,
+                          backgroundColor: Color(Constants.colors['black']),
+                          backgroundImage: avatar != null ? NetworkImage(avatar) : AssetImage('assets/images/avatar.png')
+                      ),
+                      InkWell(
+                        onTap: (){
+                          if(!imageUploading) _getImage();
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Color(Constants.colors['green']),
+                              borderRadius: BorderRadius.all(Radius.circular(30.0))
+                          ),
+                          padding: EdgeInsets.all(8.0),
+                          child: imageUploading ? SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.white),),
+                          ) : Icon(Icons.camera_alt, color: Color(Constants.colors['white']),),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 15.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      IconNumberCard(
+                        icon: Icons.star,
+                        number: "4.5",
+                        description: "Average Rating",
+                        handleClick: (){
+                          print("clicked");
+                        },
+                      ),
+                      IconNumberCard(
+                        icon: Icons.work,
+                        number: "25",
+                        description: "Total Projects",
+                        handleClick: (){
+                          print("clicked");
+                        },
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
-          ),
-          Container(
-            padding: EdgeInsets.all(30),
-            child: Column(
-              children: [
-                EditableLabeledInfo(
-                  label: 'name',
-                  info: name,
-                  editable: editMode,
-                  handleChange: editMode ? (val) {
-                    name = val;
-                  } : null
-                ),
-                SizedBox(height:25.0),
-                EditableLabeledInfo(
-                  label: 'Company',
-                  info: companyName,
-                  editable: editMode,
-                  handleChange: editMode ? (val) {
-                    companyName = val;
-                  } : null
-                ),
-                SizedBox(height:25.0),
-                EditableLabeledInfo(
-                  label: 'Info',
-                  info:  bio,
-                  infoFontSize: 14.0,
-                  editable: editMode,
-                  handleChange: editMode ? (val) {
-                    bio = val;
-                  } : null
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-      drawer: MyDrawer ()
+            Container(
+              padding: EdgeInsets.all(30),
+              child: Column(
+                children: [
+                  EditableLabeledInfo(
+                      label: 'name',
+                      info: name,
+                      editable: editMode,
+                      handleChange: editMode ? (val) {
+                        name = val;
+                      } : null
+                  ),
+                  SizedBox(height:25.0),
+                  EditableLabeledInfo(
+                      label: 'Company',
+                      info: companyName,
+                      editable: editMode,
+                      handleChange: editMode ? (val) {
+                        companyName = val;
+                      } : null
+                  ),
+                  SizedBox(height:25.0),
+                  EditableLabeledInfo(
+                      label: 'Info',
+                      info: bio,
+                      infoFontSize: 14.0,
+                      editable: editMode,
+                      handleChange: editMode ? (val) {
+                        bio = val;
+                      } : null
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+        drawer: MyDrawer ()
     );
   }
 }
